@@ -31,7 +31,23 @@ struct buttons
 	char done[5];
 }buttons;
 
+struct buffer
+{
+	int number;
+	char * data;
+	struct buffer *next;
+}return_struct;
 
+void NEXT_DATA(void){
+	int i = 0;
+
+	LCD_CLEAR();
+	return_struct = buffer_output();
+	cout<<return_struct.data<<return_struct.number<<endl;
+
+	for(i= 0; return_struct.data[i]!=0; i++)
+					LCD_DATA(return_struct.data[i]);
+}
 
 int INIT(void){
 
@@ -57,30 +73,30 @@ int main(void){
 	int i = 0;
 	char x[] = "Welcome!";
 
+
 	//Intiates all functions
 	if(INIT() == -1)
 		return -1;
 
-	for(i= 0; x[i]!=0; i++)
+	for(i = 0; x[i]!=0; i++)
+		cout<<"Welcome"<<endl;
 		LCD_DATA(x[i]);
 
+	for(i = 0; i<=BUFFERSIZE;i++){
+		char input[INPUT_SIZE];
+		cin>>input;
+		buffer_input(input);
+	}
+
 	while(1){
+		cout<<
 		sleep(2);
-		LCD_CLEAR();
+
 		buttons = read_buttons();
 
 
 		if(buttons.done[0] == '1'){
-			char high[] = "High";
-
-			for(i= 0; high[i]!=0; i++)
-				LCD_DATA(high[i]);
-		}
-		else{
-			char Low[] = "Low";
-
-			for(i= 0; Low[i]!=0; i++)
-				LCD_DATA(Low[i]);
+			NEXT_DATA();
 		}
 	}
 

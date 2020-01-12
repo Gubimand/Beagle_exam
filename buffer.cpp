@@ -5,16 +5,18 @@
  *      Author: jinxluck
  */
 
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "buffer.h"
 
-int BUFFER_SIZE = 3;
+using namespace std;
 
 struct buffer
 {
 	int number;
-	int data;
+	char* data;
 	struct buffer *next;
 };
 
@@ -23,11 +25,11 @@ struct buffer *pointer_out = NULL;
 struct buffer *start = NULL;
 struct buffer *end = NULL;
 
-int buffer_input(int input)
+int buffer_input(char input[INPUT_SIZE])
 {
 	static int count_in = 1;
 
-	if(count_in<=BUFFER_SIZE)
+	if(count_in<=BUFFERSIZE)
 	{
 		struct buffer *temp;
 
@@ -44,7 +46,7 @@ int buffer_input(int input)
 			return 1;
 		}
 
-		if(count_in==BUFFER_SIZE)
+		if(count_in==BUFFERSIZE)
 		{
 			pointer_in=start;
 
@@ -71,7 +73,6 @@ int buffer_input(int input)
 		temp->next=NULL;
 
 		count_in++;
-
 		return 1;
 	}
 	else

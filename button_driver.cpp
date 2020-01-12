@@ -33,7 +33,7 @@ void PS(char *port)
 {
 	FILE *fs;
 
-	char gpio_direction[100] = "/sys/devices/platform/ocp/4804c000.gpio/gpiochip1/gpio/gpio";
+	char gpio_direction[100] = "/sys/class/gpio/gpio";
 	strcat(gpio_direction, port);
 	strcat(gpio_direction,"/direction");
 
