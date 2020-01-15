@@ -16,7 +16,7 @@ using namespace std;
 struct buffer
 {
 	int number;
-	char* data;
+	char data[INPUT_SIZE];
 	struct buffer *next;
 };
 
@@ -29,6 +29,8 @@ int buffer_input(char input[INPUT_SIZE])
 {
 	static int count_in = 1;
 
+	cout<<"count in="<<count_in<<endl;
+
 	if(count_in<=BUFFERSIZE)
 	{
 		struct buffer *temp;
@@ -40,37 +42,29 @@ int buffer_input(char input[INPUT_SIZE])
 		{
 			start = temp;
 			start->number=count_in;
-			start->data=input;
+			strcat(start->data, input);
 			start->next=NULL;
 			count_in++;
-			return 1;
-		}
 
-		if(count_in==BUFFERSIZE)
-		{
-			pointer_in=start;
+			cout<<"input="<<input<<endl<<endl;
 
-			while(pointer_in->next != NULL)
-				pointer_in = pointer_in->next;
-
-			pointer_in->next=temp;
-			temp->number=count_in;
-			temp->data=input;
-			temp->next=start;
-			end = temp;
-			count_in++;
 			return 1;
 		}
 
 		pointer_in=start;
 
 		while(pointer_in->next != NULL)
+		{
+			cout<<"while point data="<<pointer_in->data<<endl;
 			pointer_in = pointer_in->next;
+		}
 
 		pointer_in->next=temp;
 		temp->number=count_in;
-		temp->data=input;
+		strcat(temp->data, input);
 		temp->next=NULL;
+
+		cout<<"input="<<input<<endl<<endl;
 
 		count_in++;
 		return 1;
@@ -108,6 +102,21 @@ struct buffer buffer_output(void)
 	}
 	count_out++;
 	return *pointer_out;
+}
+
+void runthrough(void)
+{
+	int i = 0;
+
+	pointer_in = start;
+	while(i <= BUFFERSIZE -1)
+	{
+		cout<<"number="<<pointer_in->number<<endl;
+		cout<<"data="<<pointer_in->data<<endl;
+		pointer_in = pointer_in->next;
+
+		i++;
+	}
 }
 
 

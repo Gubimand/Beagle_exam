@@ -9,8 +9,6 @@
  struct to insert into main:
  struct buttons
 {
-	char bin1[5];
-	char bin2[5];
 	char next[5];
 	char done[5];
 }vals;

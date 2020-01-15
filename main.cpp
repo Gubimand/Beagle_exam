@@ -25,8 +25,6 @@ using namespace std;
  */
 struct buttons
 {
-	char bin1[5];
-	char bin2[5];
 	char next[5];
 	char done[5];
 }buttons;
@@ -34,7 +32,7 @@ struct buttons
 struct buffer
 {
 	int number;
-	char * data;
+	char data[INPUT_SIZE];
 	struct buffer *next;
 }return_struct;
 
@@ -43,7 +41,7 @@ void NEXT_DATA(void){
 
 	LCD_CLEAR();
 	return_struct = buffer_output();
-	cout<<return_struct.data<<return_struct.number<<endl;
+	cout<<endl<<return_struct.data<<return_struct.number<<endl;
 
 	for(i= 0; return_struct.data[i]!=0; i++)
 					LCD_DATA(return_struct.data[i]);
@@ -78,26 +76,67 @@ int main(void){
 	if(INIT() == -1)
 		return -1;
 
+	cout<<"Welcome"<<endl;
+
 	for(i = 0; x[i]!=0; i++)
-		cout<<"Welcome"<<endl;
 		LCD_DATA(x[i]);
 
-	for(i = 0; i<=BUFFERSIZE;i++){
+	cout<<"buffer function initiated"<<endl;
+
+	for(i = 0; i<=BUFFERSIZE-1;i++){
 		char input[INPUT_SIZE];
 		cin>>input;
 		buffer_input(input);
 	}
 
+	cout<<"buffer runthrough"<<endl;
+	runthrough();
+
+	cout<<"button read initiated"<<endl;
+
 	while(1){
-		cout<<
+		cout<<"new round"<<endl;
 		sleep(2);
 
 		buttons = read_buttons();
 
 
 		if(buttons.done[0] == '1'){
-			NEXT_DATA();
+			cout<<"next data"<<endl;
+
+			if(return_struct.number != BUFFERSIZE)
+			{
+				NEXT_DATA();
+
+			}
+			else
+			{
+			int i = 0;
+			char mess[20] = "end of buffer!";
+
+			LCD_CLEAR();
+
+			cout<<"size of mess="<<sizeof(mess)/sizeof(mess[0])<<endl;
+
+			for(i= 0; mess[i]!='\0'; i++)
+				LCD_DATA(mess[i]);
+			}
 		}
+
+		if(buttons.next[0] == '1')
+		{
+			cout<<"done"<<endl;
+			LCD_CLEAR();
+
+			int i = 0;
+			char done[20] = "shutting down!";
+
+			for(i= 0; done[i]!='\0'; i++)
+				LCD_DATA(done[i]);
+
+			return 0;
+		}
+
 	}
 
 
